@@ -1,5 +1,6 @@
 ﻿using pcsharp_saude.controllers;
 using saude_csharp.controllers;
+using saude_csharp.Controllers;
 using saude_csharp.Models;
 using System;
 using System.Collections;
@@ -88,7 +89,7 @@ namespace saude_csharp.Forms
             dataGridViewDoutores.DataSource = dt;
             dataGridViewDoutores.AllowUserToAddRows = false;
             dataGridViewDoutores.Refresh();
-            lblEstado.Visible = EstaVazio();
+            lblEstado2.Visible = EstaVazio();
         }
 
         private Boolean EstaVazio()
@@ -99,6 +100,15 @@ namespace saude_csharp.Forms
         private void frmPessoas_Load(object sender, EventArgs e)
         {
             Refrescar();
+            dataGridViewDoutores.BackgroundColor = ThemeColor.PrimaryColor;
+            dataGridViewDoutores.GridColor = ThemeColor.PrimaryColor;
+            dataGridViewDoutores.ForeColor = Color.Black;
+            dataGridViewPacientes.BackgroundColor = ThemeColor.PrimaryColor;
+            dataGridViewPacientes.GridColor = ThemeColor.PrimaryColor;
+            dataGridViewPacientes.ForeColor = Color.Black;
+            dataGridViewUsers.BackgroundColor = ThemeColor.PrimaryColor;
+            dataGridViewUsers.GridColor = ThemeColor.PrimaryColor;
+            dataGridViewUsers.ForeColor = Color.Black;
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -130,6 +140,86 @@ namespace saude_csharp.Forms
         {
             frmCadastrarFuncionario frm = new frmCadastrarFuncionario();
             frm.Show();
+        }
+
+        int codigoCelSelecionada, rowSelected;
+        private void dataGridViewDoutores_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int rowIndex = e.RowIndex;
+            DataGridViewRow row = dataGridViewDoutores.Rows[rowIndex];
+            codigoCelSelecionada = int.Parse(row.Cells[0].Value.ToString());
+            ArrayList list = FuncionariosController.Recuperar(codigoCelSelecionada);
+            ArrayList listaPessoa  = new ArrayList();
+            frmCadastrarFuncionario frm = new frmCadastrarFuncionario();
+            frm.Show();
+            frm.MontarCaixasDeTexto(list, listaPessoa);
+        }
+
+        private void dataGridViewDoutores_KeyDown(object sender, KeyEventArgs e)
+        {
+            int rowIndex = rowSelected;
+            while (this.IsAccessible)
+            {
+                if (e.KeyCode == Keys.Up)
+                {
+                    dataGridViewDoutores.MultiSelect = false;
+                    dataGridViewDoutores.Rows[rowIndex].Selected = true;
+                    dataGridViewDoutores.RowsDefaultCellStyle.SelectionBackColor = Color.Blue;
+                    dataGridViewDoutores.RowsDefaultCellStyle.SelectionForeColor = Color.White;
+                    rowIndex--;
+                }
+                if (e.KeyCode == Keys.Down)
+                {
+                    dataGridViewDoutores.MultiSelect = false;
+                    dataGridViewDoutores.Rows[rowIndex].Selected = true;
+                    dataGridViewDoutores.RowsDefaultCellStyle.SelectionBackColor = Color.Blue;
+                    dataGridViewDoutores.RowsDefaultCellStyle.SelectionForeColor = Color.White;
+                    rowIndex++;
+                }
+            }
+            if (e.KeyCode == Keys.Enter)
+            {
+                rowIndex = rowSelected;
+                rowSelected = rowIndex;
+                DataGridViewRow row = dataGridViewDoutores.Rows[rowIndex];
+                codigoCelSelecionada = int.Parse(row.Cells[0].Value.ToString());
+                ArrayList list = FuncionariosController.Recuperar(codigoCelSelecionada);
+                ArrayList listaPessoa = new ArrayList();
+                frmCadastrarFuncionario frm = new frmCadastrarFuncionario();
+                frm.Show();
+                frm.MontarCaixasDeTexto(list, listaPessoa);
+            }
+        }
+
+        private void dataGridViewDoutores_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            int rowIndex = e.RowIndex;
+            DataGridViewRow row = dataGridViewDoutores.Rows[rowIndex];
+            codigoCelSelecionada = int.Parse(row.Cells[0].Value.ToString());
+        }
+
+        private void btnRemoverDoutores_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Tem certeza que deseja eliminar o Funcionario com ID: "+codigoCelSelecionada+"?", "Atenção!",
+                                         MessageBoxButtons.YesNo,
+                                         MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                FuncionariosController.Remover(codigoCelSelecionada);
+            }
+        }
+
+        private void btnRemoverPacientes_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridViewDoutores_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            int rowIndex = e.RowIndex;
+            rowSelected = rowIndex;
+            DataGridViewRow row = dataGridViewDoutores.Rows[rowIndex];
+            codigoCelSelecionada = int.Parse(row.Cells[0].Value.ToString());
         }
     }
 }

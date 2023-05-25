@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPessoas));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageUsers = new System.Windows.Forms.TabPage();
+            this.lblEstado = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnAdicionar = new System.Windows.Forms.Button();
             this.btnRemover = new System.Windows.Forms.Button();
@@ -45,7 +46,8 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnAdcionarPacientes = new System.Windows.Forms.Button();
             this.btnRemoverPacientes = new System.Windows.Forms.Button();
-            this.lblEstado = new System.Windows.Forms.Label();
+            this.lblEstado2 = new System.Windows.Forms.Label();
+            this.lblEstado3 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPageUsers.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -83,6 +85,15 @@
             this.tabPageUsers.Text = "Utilizadores";
             this.tabPageUsers.UseVisualStyleBackColor = true;
             this.tabPageUsers.Click += new System.EventHandler(this.tabPageUsers_Click);
+            // 
+            // lblEstado
+            // 
+            this.lblEstado.AutoSize = true;
+            this.lblEstado.Location = new System.Drawing.Point(577, 389);
+            this.lblEstado.Name = "lblEstado";
+            this.lblEstado.Size = new System.Drawing.Size(134, 25);
+            this.lblEstado.TabIndex = 49;
+            this.lblEstado.Text = "Sem Registo";
             // 
             // panel1
             // 
@@ -136,11 +147,13 @@
             this.dataGridViewUsers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewUsers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewUsers.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.dataGridViewUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewUsers.GridColor = System.Drawing.Color.White;
             this.dataGridViewUsers.Location = new System.Drawing.Point(3, 96);
             this.dataGridViewUsers.Name = "dataGridViewUsers";
+            this.dataGridViewUsers.RowHeadersVisible = false;
             this.dataGridViewUsers.RowHeadersWidth = 82;
             this.dataGridViewUsers.RowTemplate.Height = 33;
             this.dataGridViewUsers.Size = new System.Drawing.Size(1283, 704);
@@ -149,6 +162,7 @@
             // 
             // tabPageDoctors
             // 
+            this.tabPageDoctors.Controls.Add(this.lblEstado2);
             this.tabPageDoctors.Controls.Add(this.dataGridViewDoutores);
             this.tabPageDoctors.Controls.Add(this.panel2);
             this.tabPageDoctors.Location = new System.Drawing.Point(8, 39);
@@ -164,14 +178,21 @@
             this.dataGridViewDoutores.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewDoutores.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewDoutores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewDoutores.GridColor = System.Drawing.Color.White;
             this.dataGridViewDoutores.Location = new System.Drawing.Point(3, 96);
             this.dataGridViewDoutores.Name = "dataGridViewDoutores";
+            this.dataGridViewDoutores.RowHeadersVisible = false;
             this.dataGridViewDoutores.RowHeadersWidth = 82;
             this.dataGridViewDoutores.RowTemplate.Height = 33;
+            this.dataGridViewDoutores.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewDoutores.Size = new System.Drawing.Size(1283, 704);
             this.dataGridViewDoutores.TabIndex = 2;
+            this.dataGridViewDoutores.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDoutores_CellClick);
+            this.dataGridViewDoutores.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDoutores_CellDoubleClick);
+            this.dataGridViewDoutores.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDoutores_CellEnter);
+            this.dataGridViewDoutores.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewDoutores_KeyDown);
             // 
             // panel2
             // 
@@ -217,9 +238,11 @@
             this.btnRemoverDoutores.Text = "  Remover";
             this.btnRemoverDoutores.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnRemoverDoutores.UseVisualStyleBackColor = false;
+            this.btnRemoverDoutores.Click += new System.EventHandler(this.btnRemoverDoutores_Click);
             // 
             // tabPagePacients
             // 
+            this.tabPagePacients.Controls.Add(this.lblEstado3);
             this.tabPagePacients.Controls.Add(this.dataGridViewPacientes);
             this.tabPagePacients.Controls.Add(this.panel3);
             this.tabPagePacients.Location = new System.Drawing.Point(8, 39);
@@ -235,10 +258,12 @@
             this.dataGridViewPacientes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewPacientes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewPacientes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewPacientes.GridColor = System.Drawing.Color.White;
             this.dataGridViewPacientes.Location = new System.Drawing.Point(3, 96);
             this.dataGridViewPacientes.Name = "dataGridViewPacientes";
+            this.dataGridViewPacientes.RowHeadersVisible = false;
             this.dataGridViewPacientes.RowHeadersWidth = 82;
             this.dataGridViewPacientes.RowTemplate.Height = 33;
             this.dataGridViewPacientes.Size = new System.Drawing.Size(1283, 704);
@@ -287,15 +312,25 @@
             this.btnRemoverPacientes.Text = "  Remover";
             this.btnRemoverPacientes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnRemoverPacientes.UseVisualStyleBackColor = false;
+            this.btnRemoverPacientes.Click += new System.EventHandler(this.btnRemoverPacientes_Click);
             // 
-            // lblEstado
+            // lblEstado2
             // 
-            this.lblEstado.AutoSize = true;
-            this.lblEstado.Location = new System.Drawing.Point(577, 389);
-            this.lblEstado.Name = "lblEstado";
-            this.lblEstado.Size = new System.Drawing.Size(134, 25);
-            this.lblEstado.TabIndex = 49;
-            this.lblEstado.Text = "Sem Registo";
+            this.lblEstado2.AutoSize = true;
+            this.lblEstado2.Location = new System.Drawing.Point(577, 389);
+            this.lblEstado2.Name = "lblEstado2";
+            this.lblEstado2.Size = new System.Drawing.Size(134, 25);
+            this.lblEstado2.TabIndex = 50;
+            this.lblEstado2.Text = "Sem Registo";
+            // 
+            // lblEstado3
+            // 
+            this.lblEstado3.AutoSize = true;
+            this.lblEstado3.Location = new System.Drawing.Point(577, 389);
+            this.lblEstado3.Name = "lblEstado3";
+            this.lblEstado3.Size = new System.Drawing.Size(134, 25);
+            this.lblEstado3.TabIndex = 50;
+            this.lblEstado3.Text = "Sem Registo";
             // 
             // frmPessoas
             // 
@@ -303,6 +338,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1305, 850);
             this.Controls.Add(this.tabControl1);
+            this.KeyPreview = true;
             this.Name = "frmPessoas";
             this.Text = "Pessoas";
             this.Load += new System.EventHandler(this.frmPessoas_Load);
@@ -312,9 +348,11 @@
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUsers)).EndInit();
             this.tabPageDoctors.ResumeLayout(false);
+            this.tabPageDoctors.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDoutores)).EndInit();
             this.panel2.ResumeLayout(false);
             this.tabPagePacients.ResumeLayout(false);
+            this.tabPagePacients.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPacientes)).EndInit();
             this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -340,5 +378,7 @@
         private System.Windows.Forms.Button btnAdcionarPacientes;
         private System.Windows.Forms.Button btnRemoverPacientes;
         private System.Windows.Forms.Label lblEstado;
+        private System.Windows.Forms.Label lblEstado2;
+        private System.Windows.Forms.Label lblEstado3;
     }
 }

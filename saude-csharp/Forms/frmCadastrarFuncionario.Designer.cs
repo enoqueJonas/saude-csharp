@@ -74,6 +74,7 @@
             // 
             this.txtId.Location = new System.Drawing.Point(204, 142);
             this.txtId.Name = "txtId";
+            this.txtId.ReadOnly = true;
             this.txtId.Size = new System.Drawing.Size(275, 31);
             this.txtId.TabIndex = 1;
             // 
@@ -276,6 +277,7 @@
             this.btnPesquisar.Text = "  Pesquisar";
             this.btnPesquisar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnPesquisar.UseVisualStyleBackColor = false;
+            this.btnPesquisar.Click += new System.EventHandler(this.btnPesquisar_Click);
             // 
             // panelTitle
             // 

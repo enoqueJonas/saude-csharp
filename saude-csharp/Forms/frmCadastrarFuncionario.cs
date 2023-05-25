@@ -21,6 +21,12 @@ namespace saude_csharp.Forms
         {
             InitializeComponent();
             this.Text = string.Empty;
+            this.ActiveControl = txtNome;
+            ArrayList list = EspecialidadeController.Recuperar();
+            foreach (Especialidade esp in list)
+            {
+                cbEspecialidade.Items.Add(esp.Id + " - " + esp.Designacao);
+            }
         }
 
         private void LimparCaixas()
@@ -72,6 +78,16 @@ namespace saude_csharp.Forms
                 PessoasController.Atualizar(pessoa_id, nome, dataDeNascimento, sexo, endereco, telefone_1, telefone_2, email);
             }
         }
+
+        public void Mostrar()
+        {
+            frmNumeroRegisto f = new frmNumeroRegisto();
+            f.ShowDialog();
+            int cod = f.enterdCod;
+            ArrayList listaFuncionarios = FuncionariosController.Recuperar(cod);
+            ArrayList listaPessoas = new ArrayList();
+            MontarCaixasDeTexto(listaFuncionarios, listaPessoas);
+        }
         private void AtualizarCaixas(Boolean estado)
         {
             txtEmail.ReadOnly = estado;
@@ -85,7 +101,7 @@ namespace saude_csharp.Forms
             dtpDataDeNascimento.Enabled = !estado;
         }
 
-        private void MontarCaixasDeTexto(ArrayList listaFuncionarios, ArrayList listaPessoas, int cod)
+        public void MontarCaixasDeTexto(ArrayList listaFuncionarios, ArrayList listaPessoas)
         {
             int pessoa_id;
             ArrayList listaEspecialidades = new ArrayList();
@@ -95,6 +111,7 @@ namespace saude_csharp.Forms
                 txtId.Text = func.Id + "";
                 listaPessoas = PessoasController.Recuperar(pessoa_id);
                 listaEspecialidades = EspecialidadeController.RecuperarComCod(func.Especialidade);
+                //dtpDataDeNascimento.Value = func.DataDeNascimento;
             }
 
             foreach (Especialidade esp in listaEspecialidades)
@@ -113,20 +130,19 @@ namespace saude_csharp.Forms
             }
         }
 
-        public static void MontarCaixasDeTexto(ArrayList listaPessoas)
+        public void MontarCaixasDeTexto(ArrayList listaPessoas)
         {
             ArrayList listaFuncionarios = FuncionariosController.Recuperar();
             int pessoa_id = 0;
             ArrayList listaEspecialidades = new ArrayList();
-            frmCadastrarFuncionario ucf = new frmCadastrarFuncionario();
             foreach (Pessoa pes in listaPessoas)
             {
-                ucf.txtNome.Text = pes.Name;
-                ucf.txtEmail.Text = pes.Email;
-                ucf.txtEndereco.Text = pes.Endereco;
-                ucf.txtTel1.Text = pes.Telefone_1;
-                ucf.txtTel2.Text = pes.Telefone_2;
-                ucf.cbSexo.Text = pes.Sexo;
+                txtNome.Text = pes.Name;
+                txtEmail.Text = pes.Email;
+                txtEndereco.Text = pes.Endereco;
+                txtTel1.Text = pes.Telefone_1;
+                txtTel2.Text = pes.Telefone_2;
+                cbSexo.Text = pes.Sexo;
                 pessoa_id = pes.Id;
             }
             foreach (Funcionario func in listaFuncionarios)
@@ -134,7 +150,7 @@ namespace saude_csharp.Forms
                 if (pessoa_id == func.Pessoa_id)
                 {
                     pessoa_id = func.Pessoa_id;
-                    ucf.txtId.Text = func.Id + "";
+                    txtId.Text = func.Id + "";
                     listaPessoas = PessoasController.Recuperar(pessoa_id);
                     listaEspecialidades = EspecialidadeController.RecuperarComCod(func.Especialidade);
                 }
@@ -142,7 +158,7 @@ namespace saude_csharp.Forms
 
             foreach (Especialidade esp in listaEspecialidades)
             {
-                ucf.cbEspecialidade.Text = esp.Id + " - " + esp.Designacao;
+                cbEspecialidade.Text = esp.Id + " - " + esp.Designacao;
             }
         }
 
@@ -151,8 +167,7 @@ namespace saude_csharp.Forms
             //Procura na lista de funcionarios
             ArrayList listaFuncionarios = FuncionariosController.Recuperar(cod);
             ArrayList listaPessoas = new ArrayList();
-            MontarCaixasDeTexto(listaFuncionarios, listaPessoas, cod);
-            AtualizarCaixas(true);
+            MontarCaixasDeTexto(listaFuncionarios, listaPessoas);
         }
 
 
@@ -176,13 +191,14 @@ namespace saude_csharp.Forms
 
         private void frmCadastrarFuncionario_Load(object sender, EventArgs e)
         {
-            Adicionar();
+            
         }
 
         private void btnAdicionar_Click(object sender, EventArgs e)
         {
             Adicionar();
             AtualizarCaixas(false);
+            txtNome.Focus();
         }
 
         private void btnGravar_Click(object sender, EventArgs e)
@@ -229,6 +245,11 @@ namespace saude_csharp.Forms
                 cod = int.Parse(txtId.Text) + 1;
             }
             Procurar(cod);
+        }
+
+        private void btnPesquisar_Click(object sender, EventArgs e)
+        {
+            Mostrar();
         }
     }
 }
