@@ -1,30 +1,52 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace saude_csharp.Models
+namespace pcsharp_saude.Models
 {
-    internal class Medicamento
+    public class Medicamento
     {
-        public int Id { get; set; }
-        public string Nome { get; set; }
-        public DateTime DataDeValidade { get; set; }
-        public string Descricao { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
-        public int UpdatedByUtilizadorId { get; set; }
-        public int CreatedByUtilizadorId { get; set; }
-        public Medicamento(int id, string nome, DateTime dataDeValidade, string descricao, DateTime createdAt, DateTime updatedAt, int createdBy, int updatedBy) {
-            Id = id;
-            Nome = nome;
-            DataDeValidade = dataDeValidade;
-            Descricao = descricao;
-            CreatedAt = createdAt;
-            UpdatedAt = updatedAt;
-            UpdatedByUtilizadorId = updatedBy;
-            CreatedByUtilizadorId = createdBy;
+        private Int32 _id;
+
+        //metadata
+        private DateTime _createdAt;
+        private DateTime _updatedAt;
+        private Utilizador? _createdBy;
+        private Utilizador? _updatedBy;
+        public List<Receita>? Receitas { get; set; } 
+        public string? Nome { get; set; }
+        public DateTime DataValidade { get; set; }
+        public string? Descricao { get; set; }
+        public int Quantidade { get; set; }
+
+        public Int32 Id
+        {
+            get => _id;
+            set => _id = value;
+        }
+
+        
+        public DateTime CreatedAt
+        {
+            get => _createdAt;
+            set => _createdAt = value;
+        }
+
+        public DateTime UpdatedAt
+        {
+            get => _updatedAt;
+            set => _updatedAt = value;
+        }
+
+        public Utilizador CreatedBy
+        {
+            get => _createdBy;
+            set => _createdBy = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
+        public Utilizador UpdatedBy
+        {
+            get => _updatedBy;
+            set => _updatedBy = value ?? throw new ArgumentNullException(nameof(value));
         }
     }
 }
